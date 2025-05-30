@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>タイGL図鑑 - 図鑑ページ</title>
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@3.3.6/dist/vuetify.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet" />
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@3.3.6/dist/vuetify.min.js"></script>
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      margin: 0;
+      background-color: #f5f7fa;
+      min-height: 100vh;
+      color: #2c3e50;
+    }
+    header {
+      background-color: #34495e;
+      color: white;
+      padding: 1rem 0;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+    .group-info {
+      text-align: center;
+      margin: 2rem 0 3rem 0;
+    }
+    .group-info h2 {
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #34495e;
+    }
+    .group-info img {
+      max-width: 300px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(52, 73, 94, 0.3);
+    }
+    .back-button {
+      margin-bottom: 1.5rem;
+    }
+    .v-btn {
+      min-width: auto;
+      padding-left: 8px;
+      padding-right: 12px;
+      color: #34495e;
+      border-color: #34495e;
+      font-weight: 600;
+      text-transform: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .v-btn:hover {
+      background-color: #34495e;
+      color: white !important;
+    }
+    .v-icon {
+      margin-right: 4px;
+    }
+    .v-card {
+      background: white;
+      color: #2c3e50;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(44, 62, 80, 0.12);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      padding: 24px;
+    }
+    .v-card:hover {
+      box-shadow: 0 8px 20px rgba(44, 62, 80, 0.24);
+      transform: translateY(-4px);
+    }
+    .v-card-title {
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    ul {
+      padding-left: 1rem;
+      margin: 0;
+      list-style: none;
+    }
+    ul li {
+      margin-bottom: 0.7rem;
+      font-size: 0.95rem;
+    }
+    ul li strong {
+      color: #34495e;
+    }
+    @media (max-width: 600px) {
+      .group-info img {
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <v-app>
+      <header>
+        タイGL図鑑
+      </header>
+      <v-main>
+        <v-container class="pt-6 pb-12" max-width="900">
+          <v-btn class="back-button" outlined @click="goBack" elevation="2">
+            <v-icon left>mdi-arrow-left</v-icon> 戻る
+          </v-btn>
+
+          <div v-if="error" class="red--text text-center mb-6">{{ error }}</div>
+
+          <section v-if="groupInfo" class="group-info">
+            <h2>{{ groupInfo.ペア名 }}（{{ groupInfo.事務所 }}）</h2>
+            <img :src="`images/${groupInfo.画像}`" :alt="groupInfo.ペア名" />
+          </section>
+
+          <v-row dense>
+            <v-col v-for="actress in actresses" :key="actress.名前" cols="12" md="6">
+              <v-card>
+                <div class="v-card-title">{{ actress.名前 }}</div>
+                <ul>
+                  <li><strong>誕生日：</strong>{{ actress.誕生日 }}</li>
+                  <li><strong>身長：</strong>{{ actress.身長 }}</li>
+                  <li><strong>ペット：</strong>{{ actress.ペット }}</li>
+                  <li><strong>出演作品：</strong>{{ actress.出演作品 }}</li>
+                  <li><strong>曲：</strong>{{ actress.曲 }}</li>
+                </ul>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-main>
+    </v-app>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+    const { createVuetify } = Vuetify;
+
+    const vuetify = createVuetify();
+
+    createApp({
+      data() {
+        return {
+          groupInfo: null,
+          actresses: [],
+          error: null,
+        };
+      },
+      methods: {
+        goBack() {
+          window.location.href = 'index.html';
+        },
+        parseData(text) {
+          const lines = text.split('\n');
+          const dataMap = {};
+          let currentKey = null;
+
+          for (const line of lines) {
+            if (line.trim() === '') continue;
+
+            if (line.includes(':') && !line.startsWith(' ')) {
+              currentKey = line.split(':')[0].trim();
+              dataMap[currentKey] = {};
+            } else if (currentKey) {
+              const [key, ...rest] = line.trim().split(': ');
+              const value = rest.join(': ');
+              if (key && value) {
+                dataMap[currentKey][key] = value;
+              }
+            }
+          }
+          return dataMap;
+        }
+      },
+      mounted() {
+        const params = new URLSearchParams(window.location.search);
+        const ids = params.get('id')?.split(',') || [];
+
+        fetch('data/actress_data.txt')
+          .then(res => {
+            if (!res.ok) throw new Error('データの取得に失敗しました');
+            return res.text();
+          })
+          .then(text => {
+            const dataMap = this.parseData(text);
+            const groupKey = 'MilkLove';
+            this.groupInfo = dataMap[groupKey];
+            this.actresses = ids.map(id => dataMap[id]).filter(Boolean);
+
+            if (this.actresses.length === 0) {
+              this.error = '該当する女優のデータが見つかりません。';
+            }
+          })
+          .catch(err => {
+            this.error = 'データの読み込みに失敗しました。';
+            console.error(err);
+          });
+      }
+    }).use(vuetify).mount('#app');
+  </script>
+</body>
+</html>

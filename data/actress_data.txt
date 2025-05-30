@@ -1,0 +1,20 @@
+MilkLove:
+  事務所: GMMTV
+  ペア名: MilkLove
+  画像: milklove.png
+
+Milk_Pansa:
+  名前: Milk Pansa Vosbein
+  誕生日: 1996年7月31日
+  身長: 170 cm
+  ペット: 猫（Sugus）
+  出演作品: Bad Buddy, 23.5, Magic of Zero
+  曲: Tilt, Shot-Feel
+
+Love_Pattranite:
+  名前: Love Pattranite Limpatiyakorn
+  誕生日: 2000年5月23日
+  身長: 156 cm
+  ペット: 猫（Panther/jaguar/lion）
+  出演作品: Bad Buddy, 23.5, Magic of Zero
+  曲: Tilt, Shot-Feel

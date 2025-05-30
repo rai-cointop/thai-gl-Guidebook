@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>タイGL図鑑</title>
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@3.3.6/dist/vuetify.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet" />
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@3.3.6/dist/vuetify.min.js"></script>
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      margin: 0;
+      background-color: #f5f7fa;
+      color: #2c3e50;
+      min-height: 100vh;
+    }
+    header {
+      background-color: #34495e;
+      color: white;
+      padding: 1rem 0;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h2 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      color: #34495e;
+      border-bottom: 2px solid #34495e;
+      padding-bottom: 0.25rem;
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      margin-bottom: 2rem;
+    }
+    .list-item {
+      background: white;
+      box-shadow: 0 2px 8px rgba(44, 62, 80, 0.12);
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      transition: box-shadow 0.3s ease;
+    }
+    .list-item:hover {
+      box-shadow: 0 8px 20px rgba(44, 62, 80, 0.24);
+    }
+    .v-list-item__title {
+      font-weight: 700;
+      color: #2c3e50;
+    }
+    .v-list-item__subtitle {
+      color: #7f8c8d;
+      font-style: italic;
+    }
+    a {
+      color: #34495e;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <v-app>
+      <header>
+        タイGL図鑑
+      </header>
+      <v-main>
+        <main>
+          <h1>タイGL図鑑</h1>
+          <p>このサイトでは、タイの人気女優を紹介します。気になる女優をクリックして詳細を見てみよう！</p>
+          <h2>一覧</h2>
+          <v-list>
+            <v-list-item
+              link
+              href="catalog.html?id=Milk_Pansa,Love_Pattranite"
+              class="list-item"
+            >
+              <v-list-item-content>
+                <v-list-item-title>MilkLove</v-list-item-title>
+                <v-list-item-subtitle>甘く切なく、胸キュン必至のタイGLスター</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-icon>
+                <v-icon color="#34495e">mdi-chevron-right</v-icon>
+              </v-list-item-icon>
+            </v-list-item>
+            <!-- 他の女優ペアもここに追加可能 -->
+          </v-list>
+        </main>
+      </v-main>
+    </v-app>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+    const { createVuetify } = Vuetify;
+
+    const vuetify = createVuetify();
+
+    createApp({}).use(vuetify).mount('#app');
+  </script>
+</body>
+</html>
